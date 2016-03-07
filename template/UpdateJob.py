@@ -16,6 +16,7 @@ class UpdateJob(object):
     searcher = None
     province = None
     batch_size = 10
+    host_type = 'PC'
 
     def __init__(self):
         pass
@@ -31,9 +32,13 @@ class UpdateJob(object):
             sys.exit()
 
     def register_process(self):
+        for arg in sys.argv:
+            if arg.startswith('host='):
+                self.host = arg.split('=')[1].strip()
+        if not self.host:
+            self.host = os.getenv('computername')
         SysConfig.province = self.province
         self.pid = os.getpid()
-        self.host = os.getenv('computername')
         cur_time = time.strftime('%Y-%m-%d %X', time.localtime())
 
         sql1 = "insert into ProcessStatus (processID,processName,processStatus,startTime,lastUpdateTime,totalUpdateCnt,host) " \
