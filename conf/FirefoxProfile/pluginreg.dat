@@ -1,0 +1,214 @@
+Generated File. Do not edit.
+
+[HEADER]
+Version|0.17|$
+Arch|x86-msvc|$
+
+[PLUGINS]
+npaplayer.dll|$
+C:\Users\Public\Thunder Network\APlayer\codecs\npaplayer.dll|$
+1.0.0.2|$
+1373089708000|0|0|0|$
+APlayer III ActiveX hosting plugin for Firefox|$
+APlayer ActiveX hosting plugin|$
+1
+0|application/x-thunder-aplayer|ActiveX|ocx|$
+npKKDapCtrl.dll|$
+C:\Program Files (x86)\Common Files\Thunder Network\KanKan\npKKDapCtrl.dll|$
+3.2.0.13|$
+1445935670000|0|0|0|$
+Thunder DapCtrl NPAPI Plugin|$
+Thunder DapCtrl NPAPI Plugin|$
+1
+0|application/x-thunder-dapctrl|Thunder DapCtrl Plugin|*|$
+npGoogleUpdate3.dll|$
+C:\Program Files (x86)\Google\Update\1.3.29.1\npGoogleUpdate3.dll|$
+1.3.29.1|$
+1455763642090|0|0|0|$
+Google Update|$
+Google Update|$
+2
+0|application/x-vnd.google.update3webcontrol.3|||$
+1|application/x-vnd.google.oneclickctrl.9|||$
+nptxftnWebKit.dll|$
+C:\Program Files (x86)\QQMailPlugin\nptxftnWebKit.dll|$
+1.0.0.4|$
+1365408134000|0|0|0|$
+Tencent FTN plug-in|$
+Tencent FTN plug-in|$
+1
+0|application/txftn-webkit|nptxftn||$
+npQQMailWebKit.dll|$
+C:\Program Files (x86)\QQMailPlugin\npQQMailWebKit.dll|$
+1.0.0.22|$
+1366877940000|0|0|0|$
+QQMail plugin for WebKit #1.0.0.22|$
+QQMail Plugin|$
+2
+0|application/x-tencent-qmail-webkit|QQMailPlugin for webkit||$
+1|application/x-tencent-qmail|QQMailPlugin for webkit||$
+npSSOAxCtrlForPTLogin.dll|$
+C:\Program Files (x86)\Common Files\Tencent\TXSSO\1.2.4.1\Bin\npSSOAxCtrlForPTLogin.dll|$
+1.0.1.16|$
+1448941046000|0|0|0|$
+QQ QuickLogin Helper|$
+Tencent SSO Platform|$
+1
+0|application/nptxsso|TXSSO||$
+npQzoneMusic.dll|$
+C:\Program Files (x86)\Tencent\QzoneMusic\npQzoneMusic.dll|$
+9.51.3079.830|$
+1409378120000|0|0|0|$
+QQMusic|$
+QQMusic|$
+1
+0|application/tecent-qzonemusic-plugin|This plug-in is transfers of QzoneMusic when opening Qzone in a web page with Firefox.|rts|$
+npQQPhotoDrawEx.dll|$
+C:\Program Files (x86)\Tencent\Qzone\npQQPhotoDrawEx.dll|$
+2.47.312.813|$
+1376385610000|0|0|0|$
+npQQPhotoDrawEx Module|$
+npQQPhotoDrawEx|$
+1
+0|application/tencent-qqphotodrawex2-plugin||rts|$
+npXFMiniDLPlugin.dll|$
+C:\Program Files (x86)\Common Files\Tencent\QQMiniDL\60\Browser\npXFMiniDLPlugin.dll|$
+1.4.50.400|$
+1398413128000|0|0|0|$
+QQMiniDL Plugin|$
+QQMiniDL Plugin|$
+1
+0|application/npxf-qqminidl|npXFPlug|dll|$
+npactivex.dll|$
+C:\Program Files (x86)\Common Files\Tencent\Npchrome\npactivex.dll|$
+6.0.1.1|$
+1456300080311|0|0|0|$
+Tencent QQ CPHelper plugin for Chrome|$
+Tencent QQ|$
+1
+0|application/qscall-plugin|DLL|dll|$
+npQQPhoneManagerExt.dll|$
+C:\Program Files (x86)\Common Files\Tencent\QQPhoneManager\2.0.201.3192\npQQPhoneManagerExt.dll|$
+2.0.201.3198|$
+1401444304000|0|0|0|$
+QQPhoneManager Onekey-Install plug-in for Android Phones|$
+应用宝一键安装插件|$
+1
+0|application/qqphonemanagerplugin|QQPhoneManager|dll|$
+NPSPWRAP.DLL|$
+C:\PROGRA~2\MICROS~1\Office15\NPSPWRAP.DLL|$
+15.0.4420.1017|$
+1349095092000|0|0|0|$
+The plugin allows you to have a better experience with Microsoft SharePoint|$
+Microsoft Office 2013|$
+2
+0|application/x-sharepoint|SharePoint Plug-in for Firefox||$
+1|application/x-sharepoint-uc|||$
+NPAUTHZ.DLL|$
+C:\PROGRA~2\MICROS~1\Office14\NPAUTHZ.DLL|$
+14.0.4730.1010|$
+1263044538000|0|0|0|$
+Office Authorization plug-in for NPAPI browsers|$
+Microsoft Office 2010|$
+1
+0|application/x-msoffice14|14.0.4730.1010|*|$
+NPSPWRAP.DLL|$
+C:\PROGRA~2\MICROS~1\Office14\NPSPWRAP.DLL|$
+14.0.4761.1000|$
+1269433358000|0|0|0|$
+The plug-in allows you to open and edit files using Microsoft Office applications|$
+Microsoft Office 2010|$
+1
+0|application/x-sharepoint|SharePoint Plug-in for Firefox||$
+npctrl.dll|$
+c:\Program Files (x86)\Microsoft Silverlight\5.1.20513.0\npctrl.dll|$
+5.1.20513.0|$
+1368429276000|0|0|0|$
+5.1.20513.0|$
+Silverlight Plug-In|$
+2
+0|application/x-silverlight|npctrl|scr|$
+1|application/x-silverlight-2|||$
+npIntelWebAPIIPT.dll|$
+C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT\npIntelWebAPIIPT.dll|$
+4.0.56.0|$
+1412905032000|0|0|0|$
+Intel web components for Intel® Identity Protection Technology|$
+Intel® Identity Protection Technology|$
+1
+0|application/x-vnd-intel-webapi-ipt-4.0.56|npIntelWebAPIipt-3-5||$
+npIntelWebAPIUpdater.dll|$
+C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT\npIntelWebAPIUpdater.dll|$
+4.0.56.0|$
+1412905032000|0|0|0|$
+Intel web components updater - Installs and updates the Intel web components|$
+Intel® Identity Protection Technology|$
+1
+0|application/x-vnd-intel-webapi-updater|npIntelWebAPIupdater-2-0|intel_webapi_updater-2-0|$
+npFoxitPhantomPDFPlugin.dll|$
+C:\Program Files (x86)\Foxit PhantomPDF\plugins\npFoxitPhantomPDFPlugin.dll|$
+2.2.4.1020|$
+1413786540000|0|0|0|$
+Foxit PhantomPDF Plug-In For Firefox and Netscape|$
+Foxit PhantomPDF Plugin for Mozilla|$
+2
+0|application/pdf|Acrobat Portable Document Format|pdf|$
+1|application/vnd.fdf|||$
+NPComBrg701.dll|$
+C:\windows\system32\itruscert\NPComBrg701.dll|$
+1.0.2011.701|$
+1311580152000|0|0|0|$
+iTrusPTA&XEnroll hwPTA,IEnroll,UKeyInstalls for FireFox,version=1.0.0.2|$
+iTrusChina iTrusPTA,XEnroll,iEnroll,hwPTA,UKeyInstalls Firefox Plugin|$
+6
+0|application/pta.itruspta.version.1|PTA|*|$
+1|application/cenroll.cenroll.version.1|CEnroll||$
+2|application/itrusenroll.certenroll.version.1|IEnroll||$
+3|application/hwpta.itrushwpta|hwPTA||$
+4|application/hwwdkey.installwdkey|hwWDkey||$
+5|application/hwepass2001.installepass2001|HwEpass2001||$
+NPSWF32_20_0_0_306.dll|$
+C:\windows\SysWOW64\Macromed\Flash\NPSWF32_20_0_0_306.dll|$
+20.0.0.306|$
+1455538833792|0|0|0|$
+Shockwave Flash 20.0 r0|$
+Shockwave Flash|$
+2
+0|application/x-shockwave-flash|Adobe Flash movie|swf|$
+1|application/futuresplash|FutureSplash movie|spl|$
+npaxlogin.dll|$
+C:\Program Files (x86)\360\360Safe\Utils\npaxlogin.dll|$
+1.0.0.1007|$
+1398162484000|0|0|0|$
+360安全卫士 快速登录|$
+360安全卫士 快速登录|$
+1
+0|application/mozilla-npqihooquicklogin|||$
+npxunlei1.0.0.2.dll|$
+C:\Program Files (x86)\Thunder Network\Thunder\Data\npxunlei1.0.0.2.dll|$
+1.0.0.2|$
+1455357659171|0|0|0|$
+Xunlei scriptability Plugin|$
+XunLei Plugin|$
+1
+0|application/np_xunlei_plugin|np_xunlei_plugin|*|$
+npqqwebgame.dll|$
+C:\Users\kai.li\AppData\Roaming\Tencent\WebGamePlugin\1.0.4.3\npqqwebgame.dll|$
+1.0.4.3|$
+1445322560000|0|0|0|$
+QQWebGamePlugin Pro|$
+QQGamePlugin Pro|$
+1
+0|application/npqqwebgame|QQWebGamePlugin Pro|rts|$
+npcoba32.dll|$
+C:\Users\kai.li\PycharmProjects\GsCrawler\conf\FirefoxProfile\extensions\coba@mozilla.com.cn\plugins\npcoba32.dll|$
+1.0.0.1|$
+1450689110004|0|0|1|$
+COBA Plugin DLL|$
+China Online Banking Assistant|$
+1
+0|application/coba||*|$
+
+[INVALID]
+c:\Program Files (x86)\Microsoft Silverlight\5.1.20513.0\npctrlui.dll|$
+1368429276000|$

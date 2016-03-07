@@ -1,0 +1,30 @@
+-- windows
+
+-- linux
+
+-- java
+jdk1.8
+
+-- python
+python 2.7.?
+安装工具
+easy_install
+pip
+
+数据库连接包
+pymssql
+
+图像识别
+numpy
+scipy
+PIL
+opencv
+python-tesseract
+爬虫
+selenium
+BeautifulSoup
+
+-- 浏览器
+火狐
+
+-- framework
