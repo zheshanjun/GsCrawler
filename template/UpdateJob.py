@@ -17,6 +17,7 @@ class UpdateJob(object):
     province = None
     batch_size = 10
     host_type = 'PC'
+    total_update_cnt = 0
 
     def __init__(self):
         pass
@@ -42,7 +43,7 @@ class UpdateJob(object):
         cur_time = time.strftime('%Y-%m-%d %X', time.localtime())
 
         sql1 = "insert into ProcessStatus (processID,processName,processStatus,startTime,lastUpdateTime,totalUpdateCnt,host) " \
-               "values('%s','%s',0,'%s',getDate(),0,'%s')" % (self.pid, self.process_name, cur_time, self.host);
+               "values('%s','%s',0,'%s',getDate(),0,'%s')" % (self.pid, self.process_name, cur_time, self.host)
         database_client_cursor.execute(sql1)
         sql2 = 'select SCOPE_IDENTITY()'
         database_client_cursor.execute(sql2)
@@ -111,13 +112,17 @@ class UpdateJob(object):
             database_client_connection.commit()
             logging.info(u'待更新数目;%d' % row_count)
             if row_count > 0:
-                sql_6 = "select registeredCode from GsSrc where processIdentity=%d and updateStatus=-2 order by reverse(registeredCode)" % self.process_identity
+                sql_6 = "select registeredCode from GsSrc where processIdentity=%d and updateStatus=-2 order by reverse(registeredCode)" % \
+                        self.process_identity
                 database_client_cursor.execute(sql_6)
                 res_6 = database_client_cursor.fetchall()
                 batch_list = [row[0] for row in res_6]
                 for code in batch_list:
+                    if process_status == 0:
+                        self.total_update_cnt += 1
                     process_status = self.update_code(code)
-                    sql_7 = "update ProcessStatus set processStatus=%d, lastUpdateTime=GETDATE() where processIdentity=%d" % (process_status, self.process_identity)
+                    sql_7 = "update ProcessStatus set processStatus=%d, totalUpdateCnt=%d, lastUpdateTime=GETDATE() where processIdentity=%d" % \
+                            (process_status, self.total_update_cnt, self.process_identity)
                     database_client_cursor.execute(sql_7)
                     database_client_connection.commit()
                     if process_status != 0:
