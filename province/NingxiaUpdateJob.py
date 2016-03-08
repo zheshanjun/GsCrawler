@@ -1,7 +1,6 @@
 # coding=gbk
 import PackageTool
 import sys
-print sys.path
 from template.UpdateJob import UpdateJob
 from NingxiaFirefoxSearcher import NingXiaFirefoxSearcher
 from template.logger import logging

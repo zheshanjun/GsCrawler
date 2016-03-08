@@ -40,6 +40,7 @@ class Searcher(object):
         self.load_func_dict[u'登记信息'] = self.load_dengji
         self.load_func_dict[u'备案信息'] = self.load_beian
         self.load_func_dict[u'动产抵押登记信息'] = self.load_dongchandiyadengji
+        self.load_func_dict[u'动产抵押信息'] = self.load_dongchandiyadengji
         self.load_func_dict[u'股权出质登记信息'] = self.load_guquanchuzhidengji
         self.load_func_dict[u'行政处罚信息'] = self.load_xingzhengchufa
         self.load_func_dict[u'经营异常信息'] = self.load_jingyingyichang
@@ -51,7 +52,7 @@ class Searcher(object):
         self.load_func_dict[u'主要人员信息'] = self.load_zhuyaorenyuan
         self.load_func_dict[u'分支机构信息'] = self.load_fenzhijigou
         self.load_func_dict[u'清算信息'] = self.load_qingsuan
-        self.load_func_dict[u'参加经营的家庭成员姓名'] = self.load_jiatingchengyuan     #Modified by Jing
+        self.load_func_dict[u'参加经营的家庭成员姓名'] = self.load_jiatingchengyuan     # Modified by Jing
 
     # 初始化浏览器
     def build_driver(self):
@@ -88,7 +89,7 @@ class Searcher(object):
     def recognize_validate_code(self, validate_path):
         cmd = self.plugin_path + " " + validate_path
         print cmd
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        process = subprocess.Popen(cmd.encode('GBK', 'ignore'), stdout=subprocess.PIPE)
         process_out = process.stdout.read()
         answer = process_out.split('\r\n')[6].strip()
         print 'answer: '+answer

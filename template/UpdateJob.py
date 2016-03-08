@@ -16,8 +16,6 @@ class UpdateJob(object):
     searcher = None
     province = None
     batch_size = 10
-    host_type = 'PC'
-    total_update_cnt = 0
 
     def __init__(self):
         pass
@@ -32,12 +30,19 @@ class UpdateJob(object):
             logging.shutdown()
             sys.exit()
 
-    def register_process(self):
-        for arg in sys.argv:
-            if arg.startswith('host='):
-                self.host = arg.split('=')[1].strip()
-        if not self.host:
+    # 获取当前主机地址
+    def get_local_host(self):
+        if os.path.exists(r'D:\PublishAgent\LocalIp.txt'):
+            f = open(r'D:\PublishAgent\LocalIp.txt')
+            self.host = f.read().strip()
+            f.close()
+        else:
+            logging.info(u"IP配置文件不存在，自动获取主机名")
             self.host = os.getenv('computername')
+
+    # 注册进程信息
+    def register_process(self):
+        self.get_local_host()
         SysConfig.province = self.province
         self.pid = os.getpid()
         cur_time = time.strftime('%Y-%m-%d %X', time.localtime())
@@ -59,6 +64,7 @@ class UpdateJob(object):
     def update_code(self, code):
         logging.info(u"更新代码:%s" % code)
         update_result = 1
+        data_model = None
         for i in range(SysConfig.max_try_times):
             data_model = self.searcher.search(code)
             if data_model.update_status in (0, 1, 4, 8):
@@ -73,10 +79,10 @@ class UpdateJob(object):
 
     def update_proc(self):
         process_status = 0
+        total_update_cnt = 0
         while True:
             failed_process_identity = -1
             row_count = 0
-
             sql_0 = "select top 1 processIdentity from ProcessStatus(tablockx) " \
                     "where processStatus!=0 " \
                     "and processStatus!=9 " \
@@ -118,11 +124,11 @@ class UpdateJob(object):
                 res_6 = database_client_cursor.fetchall()
                 batch_list = [row[0] for row in res_6]
                 for code in batch_list:
-                    if process_status == 0:
-                        self.total_update_cnt += 1
                     process_status = self.update_code(code)
+                    if process_status == 0:
+                        total_update_cnt += 1
                     sql_7 = "update ProcessStatus set processStatus=%d, totalUpdateCnt=%d, lastUpdateTime=GETDATE() where processIdentity=%d" % \
-                            (process_status, self.total_update_cnt, self.process_identity)
+                            (process_status, total_update_cnt, self.process_identity)
                     database_client_cursor.execute(sql_7)
                     database_client_connection.commit()
                     if process_status != 0:
@@ -145,4 +151,4 @@ class UpdateJob(object):
 if __name__ == '__main__':
     job = UpdateJob()
     print time.strftime('%Y-%m-%d %X', time.localtime())
-    job.register_process()
+ 

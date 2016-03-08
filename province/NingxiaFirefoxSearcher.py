@@ -12,6 +12,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from template.logger import *
 import traceback
+from selenium import webdriver
 
 
 class NingXiaFirefoxSearcher(FirefoxSearcher):
@@ -33,6 +34,19 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
         self.validate_submit_button_xpath = '/html/body/div[2]/div/div/ul/li[4]/a'
         self.tab_list_xpath = '/html/body/div[2]/div[2]/div/div[1]/ul/li'
         self.plugin_path = os.path.join(sys.path[0], r'..\ocr\ningxia.bat')
+
+    def build_driver(self):
+        build_result = 0
+        profile = webdriver.FirefoxProfile(SysConfig.get_firefox_profile_path())
+        self.driver = webdriver.Firefox(firefox_profile=profile)
+        self.set_timeout_config()
+        for i in xrange(SysConfig.max_try_times):
+            if self.wait_for_load_start_url():
+                break
+            else:
+                if i == SysConfig.max_try_times:
+                    build_result = 1
+        return build_result
 
     # ²éÑ¯´úÂë
     def search(self, code):

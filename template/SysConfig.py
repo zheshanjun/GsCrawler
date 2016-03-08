@@ -29,6 +29,7 @@ def get_log_path(process_identity):
         os.mkdir(save_dir)
     return os.path.join(sys.path[0], save_dir+'\\log_'+str(process_identity)+".txt")
 
+
 if __name__ == '__main__':
     print get_validate_image_save_path("640000200001778")
     print get_log_path()

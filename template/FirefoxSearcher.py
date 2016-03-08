@@ -16,8 +16,7 @@ class FirefoxSearcher(Searcher):
 
     def build_driver(self):
         build_result = 0
-        profile = webdriver.FirefoxProfile(SysConfig.get_firefox_profile_path())
-        self.driver = webdriver.Firefox(firefox_profile=profile)
+        self.driver = webdriver.Firefox()
         self.set_timeout_config()
         for i in xrange(SysConfig.max_try_times):
             if self.wait_for_load_start_url():
