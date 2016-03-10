@@ -1,4 +1,0 @@
-2016-02-24 09:54:35 UpdateJob.py[line:39] INFO 进程名称:None
-2016-02-24 09:54:35 UpdateJob.py[line:40] INFO pid:9568
-2016-02-24 09:54:35 UpdateJob.py[line:41] INFO process_identity:1015
-2016-02-24 09:54:35 UpdateJob.py[line:42] INFO 主机名/IP:LENOVO-LK

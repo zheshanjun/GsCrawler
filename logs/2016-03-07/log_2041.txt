@@ -1,9 +1,0 @@
-2016-03-07 09:49:53 UpdateJob.py[line:48] INFO 进程名称:NingxiGs
-2016-03-07 09:49:53 UpdateJob.py[line:49] INFO pid:39488
-2016-03-07 09:49:53 UpdateJob.py[line:50] INFO process_identity:2041
-2016-03-07 09:49:53 UpdateJob.py[line:51] INFO 主机名/IP:LENOVO-LK
-2016-03-07 09:50:08 UpdateJob.py[line:87] INFO 接管进程;2038
-2016-03-07 09:50:09 UpdateJob.py[line:107] INFO 待更新数目;10
-2016-03-07 09:50:09 UpdateJob.py[line:54] INFO 更新代码:640181200008950
-2016-03-07 09:50:36 UpdateJob.py[line:65] INFO 更新状态:1
-2016-03-07 09:50:36 UpdateJob.py[line:127] INFO 任务更新失败!

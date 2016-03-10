@@ -1,8 +1,0 @@
-2016-03-04 11:16:55 UpdateJob.py[line:47] INFO 进程名称:NingxiGs
-2016-03-04 11:16:55 UpdateJob.py[line:48] INFO pid:9560
-2016-03-04 11:16:55 UpdateJob.py[line:49] INFO process_identity:2037
-2016-03-04 11:16:55 UpdateJob.py[line:50] INFO 主机名/IP:LENOVO-LK
-2016-03-04 11:17:16 UpdateJob.py[line:86] INFO 接管进程;1039
-2016-03-04 11:17:19 UpdateJob.py[line:106] INFO 待更新数目;10
-2016-03-04 11:17:19 UpdateJob.py[line:53] INFO 更新代码:640100200099863
-2016-03-04 11:17:26 NingxiaFirefoxSearcher.py[line:90] INFO 提交查询请求成功

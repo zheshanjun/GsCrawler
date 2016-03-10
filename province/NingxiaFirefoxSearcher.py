@@ -110,7 +110,7 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
                 self.validate_input_box.clear()  # 清空验证码输入框
                 self.validate_input_box.send_keys(validate_code)  # 输入验证码
                 self.validate_submit_button.click()  # 点击搜索（验证码弹窗）
-                self.driver.switch_to_alert().accept()
+                self.driver.switch_to().alert.accept()
                 time.sleep(1)
             except common.exceptions.NoAlertPresentException:
                 break
@@ -236,6 +236,7 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
                             self.driver.switch_to.frame(table_iframe)
                         else:
                             values.append(val)
+                    values.extend((len(gudong_template.column_list) - len(values))*[''])
                     gudong_template.insert_into_database(self.cur_code, values)
 
     def load_gudong_detail(self):

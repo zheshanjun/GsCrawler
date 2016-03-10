@@ -1,4 +1,0 @@
-2016-03-02 18:27:54 UpdateJob.py[line:47] INFO 进程名称:NingxiGs
-2016-03-02 18:27:54 UpdateJob.py[line:48] INFO pid:19796
-2016-03-02 18:27:54 UpdateJob.py[line:49] INFO process_identity:1038
-2016-03-02 18:27:54 UpdateJob.py[line:50] INFO 主机名/IP:LENOVO-LK

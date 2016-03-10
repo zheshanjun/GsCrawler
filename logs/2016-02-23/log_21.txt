@@ -1,6 +1,0 @@
-2016-02-23 18:44:29 UpdateJob.py[line:39] INFO 进程名称:NingxiGs
-2016-02-23 18:44:29 UpdateJob.py[line:40] INFO pid:30488
-2016-02-23 18:44:29 UpdateJob.py[line:41] INFO process_identity:21
-2016-02-23 18:44:29 UpdateJob.py[line:42] INFO 主机名/IP:LENOVO-LK
-2016-02-23 18:44:30 UpdateJob.py[line:95] INFO 待更新数目;10
-2016-02-23 18:44:30 UpdateJob.py[line:45] INFO 更新代码:640381300004330
