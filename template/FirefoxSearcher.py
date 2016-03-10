@@ -28,10 +28,10 @@ class FirefoxSearcher(Searcher):
 
     def download_validate_image(self, image_element, save_path):
         self.driver.get_screenshot_as_file(save_path)
-        left = image_element.location['x']
-        top = image_element.location['y']
-        right = image_element.location['x'] + image_element.size['width']
-        bottom = image_element.location['y'] + image_element.size['height']
+        left = self.screenshot_offset_x + image_element.location['x']
+        top = self.screenshot_offset_y + image_element.location['y']
+        right = self.screenshot_offset_x + image_element.location['x'] + image_element.size['width']
+        bottom = self.screenshot_offset_y + image_element.location['y'] + image_element.size['height']
         image = Image.open(save_path)
         image = image.crop((left, top, right, bottom))
         image.save(save_path)
