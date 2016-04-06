@@ -1,9 +1,10 @@
 # coding=gbk
 
-from Searcher import Searcher
-from selenium import webdriver
-import SysConfig
 from PIL import Image
+from selenium import webdriver
+
+import SysConfig
+from Searcher import Searcher
 
 
 class FirefoxSearcher(Searcher):
@@ -36,6 +37,8 @@ class FirefoxSearcher(Searcher):
         image = image.crop((left, top, right, bottom))
         image.save(save_path)
 
+    def get_driver_pid(self):
+        return self.driver.binary.process.pid
 
 if __name__ == '__main__':
     searcher = FirefoxSearcher()

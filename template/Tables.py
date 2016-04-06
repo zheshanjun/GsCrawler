@@ -1,6 +1,6 @@
 # coding=gbk
 
-from template.TableTemplate import TableTemplate as TableTemplate
+from TableTemplate import TableTemplate
 
 
 jiben_template = TableTemplate('Registered_Info', u'基本信息')
@@ -34,7 +34,7 @@ jiben_template.column_dict = {
     u'执行事务合伙人': 'ExecutivePartner',
     u'主要经营场所': 'MianBusinessPlace',
     u'合伙期限自': 'PartnershipFrom',
-    u'合伙期限至': 'PartnershipTo',
+    u'合伙期限至': 'PartnershipTo'
 }
 
 gudong_template = TableTemplate('Shareholder_Info', u'股东信息')

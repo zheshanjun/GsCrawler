@@ -1,21 +1,17 @@
 # coding=gbk
-from template.FirefoxSearcher import FirefoxSearcher
-from selenium import common
-import template.SysConfig as SysConfig
-import sys
 import os
-from template.UnknownColumnException import UnknownColumnException as unknown_column
-from template.UnknownTableException import UnknownTableException as unknown_table
-from selenium.common.exceptions import NoSuchElementException
-from template.Tables import *
-import time
-from selenium import webdriver
-from template.DataModel import DataModel
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
-from template.logger import *
+import sys
+
+from selenium import common
+
+import template.SysConfig as SysConfig
 from template.DBClient import *
+from template.DataModel import DataModel
+from template.FirefoxSearcher import FirefoxSearcher
+from template.Tables import *
+from template.UnknownTableException import UnknownTableException as unknown_table
 from template.logger import *
+
 
 class SichuanFirefoxSearcher(FirefoxSearcher):
 

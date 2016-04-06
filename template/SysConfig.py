@@ -12,8 +12,8 @@ province = None
 
 
 # 获取验证码临时保存路径
-def get_validate_image_save_path(code):
-    return os.path.join(sys.path[0], '..\\data\\'+code+".png")
+def get_validate_image_save_path():
+    return os.path.join(sys.path[0], '..\\data\\' + str(os.getpid()) + ".png")
 
 
 # 获取火狐浏览器Profile文件
@@ -31,5 +31,5 @@ def get_log_path(process_identity):
 
 
 if __name__ == '__main__':
-    print get_validate_image_save_path("640000200001778")
+    print get_validate_image_save_path()
     print get_log_path()

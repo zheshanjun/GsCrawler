@@ -1,10 +1,10 @@
 # coding=gbk
-import time
-from DBClient import *
-import SysConfig
-from logger import *
-import sys
 import os
+import sys
+
+import SysConfig
+from DBClient import *
+from logger import *
 
 
 class UpdateJob(object):
@@ -28,7 +28,13 @@ class UpdateJob(object):
         if self.searcher.build_driver() != 0:
             logging.info(u"查询器构建失败!")
             logging.shutdown()
+            self.searcher.driver.quit()
             sys.exit()
+        driver_pid = self.searcher.get_driver_pid()
+        if driver_pid:
+            sql = "update ProcessStatus set DriverPid=%d where processIdentity=%s" % (driver_pid, self.process_identity)
+            database_client_cursor.execute(sql)
+            database_client_connection.commit()
 
     # 获取当前主机地址
     def get_local_host(self):
@@ -80,67 +86,46 @@ class UpdateJob(object):
     def update_proc(self):
         process_status = 0
         total_update_cnt = 0
-        while True:
-            failed_process_identity = -1
-            row_count = 0
-            sql_0 = "select top 1 processIdentity from ProcessStatus(tablockx) " \
-                    "where processStatus!=0 " \
-                    "and processStatus!=9 " \
-                    "and processName='%s'" % self.process_name
-            database_client_cursor.execute(sql_0)
-            res_0 = database_client_cursor.fetchone()
-            if res_0:
-                failed_process_identity = int(res_0[0])
-                sql_1 = "update ProcessStatus set processStatus=9 where processIdentity=%d" % failed_process_identity
-                database_client_cursor.execute(sql_1)
+        for batch_idx in xrange(100000000):
+            sql_1 = "update top(%d) GsSrc " \
+                    "set updateStatus=-2, processIdentity='%d_%d', lastUpdateTime=GETDATE() " \
+                    "where province='%s' " \
+                    "and updateStatus=-1" % (self.batch_size, self.process_identity, batch_idx, self.province)
+            database_client_cursor.execute(sql_1)
             database_client_connection.commit()
 
-            if failed_process_identity != -1:
-                logging.info(u'接管进程;%d' % failed_process_identity)
-                sql_2 = "update GsSrc set lastUpdateTime=GETDATE(), processIdentity=%d " \
-                        "where processIdentity=%d " \
-                        "and updateStatus=-2" % (self.process_identity, failed_process_identity)
-                database_client_cursor.execute(sql_2)
-                sql_3 = "select @@rowcount"
+            sql_2 = "select orgName from GsSrc where processIdentity='%d_%d'" % (self.process_identity, batch_idx)
+            database_client_cursor.execute(sql_2)
+            res_2 = database_client_cursor.fetchall()
+            batch_list = [row[0] for row in res_2]
+            if len(batch_list) == 0:
+                sql_3 = "update GsSrc set updateStatus=-1 where province='%s' and updateStatus=-2 " \
+                        "and DATEDIFF(MINUTE,lastUpdateTime,GETDATE())>=10" % self.province
                 database_client_cursor.execute(sql_3)
-                res_3 = database_client_cursor.fetchone()
-                row_count = int(res_3[0])
-            if row_count == 0:
-                sql_4 = "update top(%d) GsSrc " \
-                        "set updateStatus=-2, processIdentity=%d, lastUpdateTime=GETDATE() " \
-                        "where province='%s' " \
-                        "and updateStatus=-1" % (self.batch_size, self.process_identity, self.province)
+                sql_4 = "select @@rowcount"
                 database_client_cursor.execute(sql_4)
-                sql_5 = "select @@rowcount"
+                res_4 = database_client_cursor.fetchone()
+                row_count = int(res_4[0])
+                if row_count == 0:
+                    break
+            for name in batch_list:
+                process_status = self.update_code(name)
+                if process_status == 0:
+                    total_update_cnt += 1
+                sql_5 = "update ProcessStatus set processStatus=%d, totalUpdateCnt=%d, lastUpdateTime=GETDATE() where processIdentity=%d" % \
+                        (process_status, total_update_cnt, self.process_identity)
                 database_client_cursor.execute(sql_5)
-                res_5 = database_client_cursor.fetchone()
-                row_count = int(res_5[0])
-            database_client_connection.commit()
-            logging.info(u'待更新数目;%d' % row_count)
-            if row_count > 0:
-                sql_6 = "select registeredCode from GsSrc where processIdentity=%d and updateStatus=-2 order by reverse(registeredCode)" % \
-                        self.process_identity
-                database_client_cursor.execute(sql_6)
-                res_6 = database_client_cursor.fetchall()
-                batch_list = [row[0] for row in res_6]
-                for code in batch_list:
-                    process_status = self.update_code(code)
-                    if process_status == 0:
-                        total_update_cnt += 1
-                    sql_7 = "update ProcessStatus set processStatus=%d, totalUpdateCnt=%d, lastUpdateTime=GETDATE() where processIdentity=%d" % \
-                            (process_status, total_update_cnt, self.process_identity)
-                    database_client_cursor.execute(sql_7)
-                    database_client_connection.commit()
-                    if process_status != 0:
-                        break
+                database_client_connection.commit()
                 if process_status != 0:
                     break
-            else:
+            if process_status != 0:
                 break
         if process_status == 0:
             logging.info(u'任务更新完成!')
         else:
             logging.info(u'任务更新失败!')
+        logging.shutdown()
+        self.searcher.driver.quit()
 
     def run(self):
         self.set_config()

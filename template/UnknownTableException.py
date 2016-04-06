@@ -1,7 +1,7 @@
 # coding=gbk
+import SysConfig
 from DBClient import *
 from logger import *
-import SysConfig
 
 
 class UnknownTableException(Exception):

@@ -1,14 +1,14 @@
 # coding=gbk
 
-import SysConfig
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
+import os
 import subprocess
 import sys
-import os
-import xml.dom.minidom
-import Tables
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.ui import WebDriverWait
+
+import SysConfig
 from logger import *
 
 
@@ -30,11 +30,13 @@ class Searcher(object):
     tab_list = None
     tab_list_xpath = None
     plugin_path = None
+    cur_name = None
     cur_code = None
     start_page_handle = None
     load_func_dict = {}
     table_dict = {}
     table_config_file = os.path.join(sys.path[0], '../conf/GsTables.xml')
+    province = None
 
     def __init__(self):
         self.load_func_dict[u'登记信息'] = self.load_dengji
@@ -77,8 +79,8 @@ class Searcher(object):
         pass
 
     # 输入工商注册码，返回查询状态结果，各分表数据插入在此方法中完成
-    def search(self, code):
-        self.cur_code = code
+    def search(self, name):
+        self.cur_name = name
         self.submit_search_request()
         self.enter_detail_page()
         self.parse_detail_page()
@@ -98,12 +100,12 @@ class Searcher(object):
 
     def submit_search_request(self):
         self.code_input_box.clear()  # 清空输入框
-        self.code_input_box.send_keys(self.cur_code)  # 输入查询代码
+        self.code_input_box.send_keys(self.cur_name)  # 输入查询代码
         self.code_submit_button.click()  # 点击搜索按钮
         self.validate_image = self.driver.find_element_by_xpath(self.validate_image_xpath)  # 定位验证码图片
         self.validate_input_box = self.driver.find_element_by_xpath(self.validate_input_box_xpath)  # 定位验证码输入框
         self.validate_submit_button = self.driver.find_element_by_xpath(self.validate_submit_button_xpath)  # 定位验证码提交按钮
-        validate_image_save_path = SysConfig.get_validate_image_save_path(self.cur_code)  # 获取验证码保存路径
+        validate_image_save_path = SysConfig.get_validate_image_save_path()  # 获取验证码保存路径
         self.download_validate_image(self.validate_image, validate_image_save_path)  # 截图获取验证码
         validate_code = self.recognize_validate_code(validate_image_save_path)  # 识别验证码
         self.validate_input_box.clear()  # 清空验证码输入框
@@ -112,6 +114,9 @@ class Searcher(object):
 
     def enter_detail_page(self):
         pass
+
+    def get_driver_pid(self):
+        return None
 
     def parse_detail_page(self):
         self.tab_list = self.driver.find_elements_by_xpath(self.tab_list_xpath)

@@ -1,18 +1,21 @@
 # coding=gbk
-from template.FirefoxSearcher import FirefoxSearcher
-from selenium import common
-import template.SysConfig as SysConfig
-import sys
 import os
-from template.UnknownTableException import UnknownTableException
-from template.UnknownColumnException import UnknownColumnException
-from template.Tables import *
-from template.DataModel import DataModel
+import sys
+import traceback
+
+from selenium import common
+from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+
+import template.SysConfig as SysConfig
+from template.DBClient import database_client_cursor
+from template.DataModel import DataModel
+from template.FirefoxSearcher import FirefoxSearcher
+from template.Tables import *
+from template.UnknownColumnException import UnknownColumnException
+from template.UnknownTableException import UnknownTableException
 from template.logger import *
-import traceback
-from selenium import webdriver
 
 
 class NingXiaFirefoxSearcher(FirefoxSearcher):
@@ -23,6 +26,8 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
         chouchajiancha_template.column_list.pop()
         self.start_page_handle_bak = None
         self.detail_page_handle = None
+        self.search_model = None
+        self.result_model = None
 
     # 配置页面元素xpath与浏览器插件
     def set_config(self):
@@ -34,6 +39,7 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
         self.validate_submit_button_xpath = '/html/body/div[2]/div/div/ul/li[4]/a'
         self.tab_list_xpath = '/html/body/div[2]/div[2]/div/div[1]/ul/li'
         self.plugin_path = os.path.join(sys.path[0], r'..\ocr\ningxia.bat')
+        self.province = u'宁夏回族自治区'
 
     def build_driver(self):
         build_result = 0
@@ -48,44 +54,87 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
                     build_result = 1
         return build_result
 
-    # 查询代码
-    def search(self, code):
-        data_model = DataModel(code)
-        self.cur_code = code
+    # 查询名称
+    def search(self, name):
+        self.cur_name = name
+        self.search_model = DataModel(name, self.province)
         try:
             if not self.get_ip_status():
                 # IP被禁，update_status：4
-                data_model.set_update_status(4)
+                self.search_model.set_update_status(4)
             else:
                 self.submit_search_request()
-                enter_detail_page_result = self.enter_detail_page()
-                if enter_detail_page_result == 0:
-                    # 查询无结果，update_status：0
-                    data_model.set_update_status(0)
-                elif enter_detail_page_result == 1:
-                    # 查询成功，update_status：1
-                    data_model.set_update_status(1)
-                    self.parse_detail_page()
-                else:
-                    # 查询失败，update_status：3
-                    data_model.set_update_status(3)
-        except (UnknownTableException, UnknownColumnException):
-            # 未知表名或列名，update_status：8
-            data_model.set_update_status(8)
+                self.get_search_result()
+                if self.search_model.update_status == 1:
+                    result_list = self.driver.find_elements_by_xpath("/html/body/form/div/div/dl/div")
+                    for result in result_list:
+                        self.driver.execute_script("arguments[0].style=''", result)
+                        org_name = result.find_element_by_xpath("dt/a").text
+                        self.cur_code = result.find_element_by_xpath("dd/span").text
+                        # print org_name, self.cur_code
+                        self.result_model = DataModel(org_name, self.province)
+                        self.result_model.set_code(self.cur_code)
+                        sql_1 = "select EnterpriseName from Registered_Info where RegistrationNo='%s'" % org_name
+                        database_client_cursor.execute(sql_1)
+                        res_1 = database_client_cursor.fetchone()
+                        if res_1:
+                            print u'%s已更新' % org_name
+                        else:
+                            self.result_model.set_update_status(1)
+                            result.find_element_by_xpath("dt/a").click()
+                            self.detail_page_handle = self.driver.window_handles[-1]
+                            self.driver.switch_to.window(self.detail_page_handle)
+                            try:
+                                self.parse_detail_page()
+                            except (UnknownTableException, UnknownColumnException):
+                                # 未知表名或列名，update_status：8
+                                self.result_model.set_update_status(8)
+                            print "*******************************************"+self.driver.current_window_handle
+                            self.driver.close()
+
+                            self.driver.switch_to.window(self.start_page_handle)
+                            if self.search_model.name == self.result_model.name:
+                                self.search_model.set_code(self.cur_code)
+                            else:
+                                sql_2 = "update GsSrc set %s where orgName='%s'" % (self.result_model, self.result_model.name)
+                                database_client_cursor.execute(sql_2)
+                                sql_3 = "select @@rowcount"
+                                database_client_cursor.execute(sql_3)
+                                res_3 = database_client_cursor.fetchone()
+                                if int(res_3[0]) == 0:
+                                    sql_4 = "insert into GsSrc(%s) values(%s)" % (self.result_model.get_cols(), self.result_model.get_vals())
+                                    database_client_cursor.execute(sql_4)
         except Exception:
             # 未知异常，update_status：3
             traceback.print_exc()
-            data_model.set_update_status(3)
+            self.search_model.set_update_status(3)
+        self.switch_to_search_page()
+        return self.search_model
 
+    def switch_to_search_page(self):
         for handle in self.driver.window_handles:
             if handle != self.start_page_handle_bak:
                 self.driver.switch_to.window(handle)
                 self.driver.close()
         if self.start_page_handle_bak:
             self.driver.switch_to.window(self.start_page_handle_bak)
+            self.start_page_handle = self.start_page_handle_bak
         else:
             self.build_driver()
-        return data_model
+
+    def switch_to_result_page(self):
+        pass
+
+    def get_search_result(self):
+        if not self.get_ip_status():
+            return 4
+        search_result = self.driver.find_element_by_xpath('/html/body/form/div/div/dl')
+        result_text = search_result.text.strip()
+        if result_text == '':
+            logging.info(u'查询结果0条')
+            self.search_model.set_update_status(0)
+        else:
+            self.search_model.set_update_status(1)
 
     # 提交查询请求
     def submit_search_request(self):
@@ -93,15 +142,12 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
         self.code_input_box = self.driver.find_element_by_xpath(self.code_input_box_xpath)
         self.code_submit_button = self.driver.find_element_by_xpath(self.code_submit_button_xpath)
         self.code_input_box.clear()  # 清空输入框
-        self.code_input_box.send_keys(self.cur_code)  # 输入查询代码
+        self.code_input_box.send_keys(self.cur_name)  # 输入查询代码
         ActionChains(self.driver).key_down(Keys.SHIFT).perform()
         self.code_submit_button.click()
         ActionChains(self.driver).key_up(Keys.SHIFT).perform()
         self.start_page_handle_bak = self.driver.window_handles[-1]
-        self.validate_image = self.driver.find_element_by_xpath(self.validate_image_xpath)  # 定位验证码图片
-        self.validate_input_box = self.driver.find_element_by_xpath(self.validate_input_box_xpath)  # 定位验证码输入框
-        self.validate_submit_button = self.driver.find_element_by_xpath(self.validate_submit_button_xpath)  # 定位验证码提交按钮
-        validate_image_save_path = SysConfig.get_validate_image_save_path(self.cur_code)  # 获取验证码保存路径
+        validate_image_save_path = SysConfig.get_validate_image_save_path()  # 获取验证码保存路径
         for i in range(SysConfig.max_try_times):
             try:
                 self.validate_image = self.driver.find_element_by_xpath(self.validate_image_xpath)  # 定位验证码图片
@@ -110,7 +156,7 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
                 self.validate_input_box.clear()  # 清空验证码输入框
                 self.validate_input_box.send_keys(validate_code)  # 输入验证码
                 self.validate_submit_button.click()  # 点击搜索（验证码弹窗）
-                self.driver.switch_to().alert.accept()
+                self.driver.switch_to.alert.accept()
                 time.sleep(1)
             except common.exceptions.NoAlertPresentException:
                 break
@@ -135,47 +181,31 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
         return load_result
 
     # 进入详情页 返回int型 {0：查询无结果，1：查询有结果且进入成功，4：IP被禁，9：进入失败}
-    def enter_detail_page(self):
-        res = 9
-        if not self.get_ip_status():
-            return 4
-        search_result = self.driver.find_element_by_xpath('/html/body/form/div/div/dl')
-        result_text = search_result.text.strip()
-        if result_text == '':
-            logging.info(u'查询结果0条')
-            res = 0
-        else:
-            info_list = result_text.split('\n')
-            company_name = info_list[0]
-            company_abstract = info_list[1]
-            self.cur_code = search_result.find_element_by_xpath('div/dd/span[1]').text.strip()
-            print 'cur_code:' + self.cur_code
-            print 'company_name:'+company_name
-            print 'company_abstract:'+company_abstract
-            detail_link = self.driver.find_element_by_xpath('/html/body/form/div/div/dl/div/dt/a')
-            detail_link.click()
-            self.detail_page_handle = self.driver.window_handles[-1]
-            self.driver.close()
-            res = 1
-            self.driver.switch_to.window(self.detail_page_handle)
-            logging.info(u"进入详情页成功")
-        return res
-
-    # def parse_detail_page(self):
-    #     self.tab_list = self.driver.find_elements_by_xpath(self.tab_list_xpath)
-    #     i = 0
-    #     for tab in self.tab_list:
-    #         i += 1
-    #         if i <= 2:
-    #             time.sleep(2)
-    #         else:
-    #             time.sleep(1)
-    #         tab_text = tab.text
-    #         logging.info(u"解析%s ..." % tab_text)
-    #         if tab.get_attribute('class') != 'current':
-    #             tab.click()
-    #         self.load_func_dict[tab_text]()
-    #         logging.info(u"解析%s成功" % tab_text)
+    # def enter_detail_page(self):
+    #     res = 9
+    #     if not self.get_ip_status():
+    #         return 4
+    #     search_result = self.driver.find_element_by_xpath('/html/body/form/div/div/dl')
+    #     result_text = search_result.text.strip()
+    #     if result_text == '':
+    #         logging.info(u'查询结果0条')
+    #         res = 0
+    #     else:
+    #         info_list = result_text.split('\n')
+    #         company_name = info_list[0]
+    #         company_abstract = info_list[1]
+    #         self.cur_code = search_result.find_element_by_xpath('div/dd/span[1]').text.strip()
+    #         # print 'cur_code:' + self.cur_code
+    #         # print 'company_name:'+company_name
+    #         # print 'company_abstract:'+company_abstract
+    #         detail_link = self.driver.find_element_by_xpath('/html/body/form/div/div/dl/div/dt/a')
+    #         detail_link.click()
+    #         self.detail_page_handle = self.driver.window_handles[-1]
+    #         self.driver.close()
+    #         res = 1
+    #         self.driver.switch_to.window(self.detail_page_handle)
+    #         logging.info(u"进入详情页成功")
+    #     return res
 
     # 加载登记信息
     def load_dengji(self):
@@ -209,6 +239,7 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
                     val = td_element_list[i].text.strip()
                     if col != u'':
                         values[col] = val
+        values[u'省份'] = self.province
         jiben_template.insert_into_database(self.cur_code, values)
 
     # 加载股东信息
@@ -337,12 +368,13 @@ class NingXiaFirefoxSearcher(FirefoxSearcher):
 
     # 加载清算信息
     def load_qingsuan(self, table_iframe):
-        qingsuan_template.delete_from_database(self.cur_code)
         table_element = self.driver.find_element_by_xpath("/html/body/table[1]")
         val_1 = table_element.find_element_by_xpath('tbody/tr[2]/td').text.strip()
         val_2 = table_element.find_element_by_xpath('tbody/tr[3]/td').text.strip()
         values = [val_1, val_2]
-        qingsuan_template.insert_into_database(self.cur_code, values)
+        if len(values[0]) != 0 or len(values[1]) != 0:
+            qingsuan_template.delete_from_database(self.cur_code)
+            qingsuan_template.insert_into_database(self.cur_code, values)
 
     # 加载动产抵押信息
     def load_dongchandiyadengji(self):
@@ -509,5 +541,4 @@ if __name__ == '__main__':
     searcher = NingXiaFirefoxSearcher()
     searcher.set_config()
     if searcher.build_driver() == 0:
-        for code1 in code_list:
-            searcher.search(code1)
+        searcher.search(u"银川高新区正帝广告有限公司")

@@ -15,8 +15,8 @@ APlayer ActiveX hosting plugin|$
 0|application/x-thunder-aplayer|ActiveX|ocx|$
 npKKDapCtrl.dll|$
 C:\Program Files (x86)\Common Files\Thunder Network\KanKan\npKKDapCtrl.dll|$
-3.2.0.13|$
-1445935670000|0|0|0|$
+3.3.1.16|$
+1432795766000|0|0|0|$
 Thunder DapCtrl NPAPI Plugin|$
 Thunder DapCtrl NPAPI Plugin|$
 1
@@ -104,22 +104,6 @@ Microsoft Office 2013|$
 2
 0|application/x-sharepoint|SharePoint Plug-in for Firefox||$
 1|application/x-sharepoint-uc|||$
-NPAUTHZ.DLL|$
-C:\PROGRA~2\MICROS~1\Office14\NPAUTHZ.DLL|$
-14.0.4730.1010|$
-1263044538000|0|0|0|$
-Office Authorization plug-in for NPAPI browsers|$
-Microsoft Office 2010|$
-1
-0|application/x-msoffice14|14.0.4730.1010|*|$
-NPSPWRAP.DLL|$
-C:\PROGRA~2\MICROS~1\Office14\NPSPWRAP.DLL|$
-14.0.4761.1000|$
-1269433358000|0|0|0|$
-The plug-in allows you to open and edit files using Microsoft Office applications|$
-Microsoft Office 2010|$
-1
-0|application/x-sharepoint|SharePoint Plug-in for Firefox||$
 npctrl.dll|$
 c:\Program Files (x86)\Microsoft Silverlight\5.1.20513.0\npctrl.dll|$
 5.1.20513.0|$
@@ -154,6 +138,14 @@ Foxit PhantomPDF Plugin for Mozilla|$
 2
 0|application/pdf|Acrobat Portable Document Format|pdf|$
 1|application/vnd.fdf|||$
+npYunWebDetect.dll|$
+C:\Users\kai.li\AppData\Roaming\baidu\BaiduYunGuanjia\npYunWebDetect.dll|$
+5.4.0.19|$
+1458207790000|0|0|0|$
+YunWebDetect|$
+BaiduYunGuanjia Application|$
+1
+0|application/bd-npyunwebdetect-plugin|||$
 NPComBrg701.dll|$
 C:\windows\system32\itruscert\NPComBrg701.dll|$
 1.0.2011.701|$
@@ -167,11 +159,51 @@ iTrusChina iTrusPTA,XEnroll,iEnroll,hwPTA,UKeyInstalls Firefox Plugin|$
 3|application/hwpta.itrushwpta|hwPTA||$
 4|application/hwwdkey.installwdkey|hwWDkey||$
 5|application/hwepass2001.installepass2001|HwEpass2001||$
-NPSWF32_20_0_0_306.dll|$
-C:\windows\SysWOW64\Macromed\Flash\NPSWF32_20_0_0_306.dll|$
-20.0.0.306|$
-1455538833792|0|0|0|$
-Shockwave Flash 20.0 r0|$
+npalidcp.dll|$
+C:\Program Files (x86)\alipay\aliedit\5.1.0.3754\npalidcp.dll|$
+1.0.0.1|$
+1404391014000|0|0|0|$
+npalidcp|$
+Alipay webmod control|$
+1
+0|application/alidcp|npalidcp| |$
+npaliedit.dll|$
+C:\Program Files (x86)\alipay\aliedit\5.1.0.3754\npaliedit.dll|$
+1.3.0.2|$
+1404391014000|0|0|0|$
+npaliedit|$
+Alipay security control|$
+1
+0|application/aliedit|npaliedit| |$
+npalicdo.dll|$
+C:\Program Files (x86)\alipay\aliedit\5.1.0.3754\npalicdo.dll|$
+1.0.0.4|$
+1421228434000|0|0|0|$
+npalicdo|$
+npalicdo plugin|$
+1
+0|application/npalicdo|npalicdo|dll|$
+npAlipaydhc.dll|$
+C:\Program Files (x86)\alipay\aliedit\5.1.0.3754\npAlipaydhc.dll|$
+1.0.6.0|$
+1421228436000|0|0|0|$
+Alipay Internet Health Control|$
+Alipay Security Payment Client Suit|$
+1
+0|application/x-aliinethealth-plugin|npAliInetHealth.dll|*|$
+npAliSecCtrl.dll|$
+C:\Program Files (x86)\alipay\aliedit\5.1.0.3754\npAliSecCtrl.dll|$
+2.0.2.0|$
+1421228438000|0|0|0|$
+Alipay Security Control|$
+Alipay Security Control 3|$
+1
+0|application/x-alisecctrl-plugin|npAliSecCtrl.dll|*|$
+NPSWF32_21_0_0_197.dll|$
+C:\windows\SysWOW64\Macromed\Flash\NPSWF32_21_0_0_197.dll|$
+21.0.0.197|$
+1458790961562|0|0|0|$
+Shockwave Flash 21.0 r0|$
 Shockwave Flash|$
 2
 0|application/x-shockwave-flash|Adobe Flash movie|swf|$
@@ -200,15 +232,13 @@ QQWebGamePlugin Pro|$
 QQGamePlugin Pro|$
 1
 0|application/npqqwebgame|QQWebGamePlugin Pro|rts|$
-npcoba32.dll|$
-C:\Users\kai.li\PycharmProjects\GsCrawler\conf\FirefoxProfile\extensions\coba@mozilla.com.cn\plugins\npcoba32.dll|$
-1.0.0.1|$
-1450689110004|0|0|1|$
-COBA Plugin DLL|$
-China Online Banking Assistant|$
-1
-0|application/coba||*|$
 
 [INVALID]
 c:\Program Files (x86)\Microsoft Silverlight\5.1.20513.0\npctrlui.dll|$
 1368429276000|$
+C:\Program Files (x86)\alipay\aliedit\5.1.0.3754\npAliSecCtrl64.dll|$
+1421228440000|$
+C:\Program Files (x86)\alipay\aliedit\5.1.0.3754\npAlipaydhc64.dll|$
+1421228438000|$
+C:\Program Files (x86)\alipay\aliedit\5.1.0.3754\npalicdo64.dll|$
+1421228434000|$
